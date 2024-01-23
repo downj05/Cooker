@@ -42,7 +42,7 @@ powershell -command "Expand-Archive -Path main.zip -DestinationPath ."
 
 rem Run the provided install.bat inside the extracted zip
 echo Running install.bat...
-cd repo-main
+cd cooker-main
 call install.bat
 
 :end
