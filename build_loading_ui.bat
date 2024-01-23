@@ -1,0 +1,1 @@
+pyuic5 design\loading.ui -o gui_loading.py

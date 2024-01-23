@@ -1,3 +1,15 @@
+# VSCode
+.vscode
+
+# Virtual environment
+venv
+
+# Settings
+settings.json
+
+# Bot screenshots
+bot_images/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
