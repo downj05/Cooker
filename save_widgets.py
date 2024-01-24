@@ -5,7 +5,14 @@ from PyQt5 import QtWidgets
 SETTINGS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'settings.json')
 
 def save_setting(key, value):
-    print(f"Saving setting: {key} = {value}")
+    if 'webhookUrlTextBox' in key or 'password' in key.lower():
+        # censor the webhook url
+        # replace second half of the url with asterisks
+        l = len(value)
+        print(f"Saving secret setting: {key} = {value[:l//4]}{'*' * (int(l*3//4))}")
+
+    else:
+        print(f"Saving setting: {key} = {value}")
     with open(SETTINGS_FILE, 'r') as f:
         settings = json.load(f)
     settings[key] = value
@@ -21,10 +28,11 @@ def load_setting(key):
     # Load the settings file
     with open(SETTINGS_FILE, 'r') as f:
         settings = json.load(f)
-        if 'webhookUrlTextBox' in key:
+        if 'webhookUrlTextBox' in key or 'password' in key.lower():
             # censor the webhook urlI
             # replace second half of the url with asterisks
-            print(f"Loading setting: {key} = {settings.get(key, None)[:30]}{'*' * 30}")
+            l = len(settings.get(key, ''))
+            print(f"Loading secret setting: {key} = {settings.get(key, '')[:l//4]}{'*' * (int(l*3//4))}")
             # print(f"Loading setting: {key} = {settings.get(key, '')}")
             
         else:

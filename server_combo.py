@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QThread, pyqtSignal, QObject
 from PyQt5.QtWidgets import QComboBox, QLineEdit, QPushButton
 from ui_helpers import show_message, input_dialog
-
+import os
 import json
 """
 example server dict:
@@ -42,6 +42,12 @@ def save_dict_to_file(server_dict):
         json.dump(db_dict, f, indent=4)
 
 def load_dict_from_file():
+    # Create the settings file if it doesn't exist
+    if not os.path.exists('settings.json'):
+        print("Creating settings file")
+        with open('settings.json', 'w') as f:
+            json.dump({}, f, indent=4)
+
     with open('settings.json', 'r') as f:
         db_dict = json.load(f)
 
