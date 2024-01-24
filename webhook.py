@@ -3,6 +3,7 @@ from helpers import seconds_to_hms
 import pyautogui as py
 from typing import Tuple
 from helpers import get_unturned_window_dimensions, focus_unturned_window
+import os
 
 class Webhook:
     def __init__(self, url):
@@ -18,6 +19,10 @@ class Webhook:
 
         # Convert the rectangle to a region
         region = (r[0], r[1], r[2] - r[0], r[3] - r[1])
+
+        if not os.path.exists("bot_images"):
+            print("Webhook._screenshot: Creating bot_images folder")
+            os.mkdir("bot_images")
 
         py.screenshot('bot_images/screenshot.png', region=region)
         file = discord.File("bot_images/screenshot.png", filename="screenshot.png")
