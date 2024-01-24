@@ -98,7 +98,6 @@ class StartCookerButtonLogic(QObject):
             # 'Wiggle' logic
             game.frank_b_oogie(loop=False)
 
-
             # Disconnect + Rejoin logic
             if connected_to_server[0] == False:
                 print("Disconnected from server!")
@@ -109,14 +108,10 @@ class StartCookerButtonLogic(QObject):
                 if "ban" in reason.lower():
                     # Error
                     if w is not None:
-                        w.error((time_in_game, total_time, self.window.cookTimeSlider.value()))
-                    # Focus GUI
-                    self.window.activateWindow()
-                    self.window.raise_()
+                        w.error(reason=reason, status_tuple=(time_in_game, total_time, self.window.cookTimeSlider.value()))
+
                     show_message(self.window.startCooker, "BAN ALERT DURING COOKING!", f"Disconnected from server\nReason: {reason}")
                     print(f"BAN ALERT DURING COOKING! {reason}")
-
-
 
                     return
                 else: # Kick logic

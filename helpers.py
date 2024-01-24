@@ -108,13 +108,13 @@ overlay=None):
     s = time.time()
     while True:
         try:
-            focus_unturned_window()
             x, y = py.locateCenterOnScreen(image=img_path(image), confidence=confidence, grayscale=True, region=get_unturned_window_dimensions())
             print(f"found {image} at {x}, {y} [{int(time.time()-s/1000)}ms]")
             x += x_offset
             y += y_offset
             break
         except Exception as e:
+            focus_unturned_window()
             print(f"click_image: image: {image} error: {e} [{round(time.time() - s, 2)}s/{timeout}s]")
             if time.time() - s > timeout:
                 raise f"image {image} not found"

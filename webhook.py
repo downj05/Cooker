@@ -2,6 +2,7 @@ import discord
 from helpers import seconds_to_hms
 import pyautogui as py
 from typing import Tuple
+from helpers import get_unturned_window_dimensions, focus_unturned_window
 
 class Webhook:
     def __init__(self, url):
@@ -12,7 +13,13 @@ class Webhook:
 
     @staticmethod
     def _screenshot(embed):
-        py.screenshot('bot_images/screenshot.png')
+        focus_unturned_window()
+        r = get_unturned_window_dimensions()
+
+        # Convert the rectangle to a region
+        region = (r[0], r[1], r[2] - r[0], r[3] - r[1])
+
+        py.screenshot('bot_images/screenshot.png', region=region)
         file = discord.File("bot_images/screenshot.png", filename="screenshot.png")
         embed.set_image(url="attachment://screenshot.png")
         return embed, file

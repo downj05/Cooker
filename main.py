@@ -107,7 +107,7 @@ class GuiLogic(Ui_MainWindow):
 
 
     def webhookTest(self):
-        print(f"Unturned running: {self.unturned_running}, Menu loaded: {self.menu_loaded}, Game joined: {self.game_joined}")
+        print(f"Unturned running: {self.unturned_running}, Menu loaded: {self.menu_loaded}, Game joined: {self.joined_server}")
         try:
             w = webhook.Webhook(self.webhookUrlTextBox.text())
             w.test()
