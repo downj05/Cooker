@@ -44,19 +44,26 @@ class Webhook:
         embed.set_author(name=self.NAME)
         embed, file = self._screenshot(embed)
         embed.add_field(name="Reason:", value=reason, inline=False)
-        # embed.add_field(name="Next Steps:", value="Rejoining", inline=True)
         embed.set_footer(text=self._status_string(status_tuple=status_tuple))
         self.webhook.send(embed=embed, file=file)
 
-    def error(self, reason, status_tuple: Tuple[int, int, int]):
-        embed=discord.Embed(title="Error!", description="User is banned from the server!", color=0xFF3C12)
+    def error(self, traceback, status_tuple: Tuple[int, int, int]):
+        embed=discord.Embed(title="Error!", description="Error during execution!", color=0xFF3C12)
         embed.set_author(name=self.NAME)
         embed, file = self._screenshot(embed)
-        embed.add_field(name="Reason:", value=reason, inline=False)
+        embed.add_field(name="Traceback:", value=traceback, inline=False)
         # embed.add_field(name="Next Steps:", value="Rejoining", inline=True)
         embed.set_footer(text=self._status_string(status_tuple=status_tuple))
         self.webhook.send(embed=embed, file=file)
     
+    def ban(self, reason, status_tuple: Tuple[int, int, int]):
+        embed=discord.Embed(title="Error!", description="User is banned from the server!", color=0xFF3C12)
+        embed.set_author(name=self.NAME)
+        embed, file = self._screenshot(embed)
+        embed.add_field(name="Reason:", value=reason, inline=False)
+        embed.set_footer(text=self._status_string(status_tuple=status_tuple))
+        self.webhook.send(embed=embed, file=file)
+
     def success(self, status_tuple: Tuple[int, int, int]):
         embed=discord.Embed(title="Success!", description="User is done cooking!", color=0x07F614)
         embed.set_author(name=self.NAME)

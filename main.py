@@ -99,6 +99,20 @@ class GuiLogic(Ui_MainWindow):
         # Webhook test button
         self.testWebhookButton.clicked.connect(self.webhookTest)
 
+        # Experiments
+
+        save_widgets.init(self.joinEscapeKeyCheckboxGroup)
+        save_widgets.init(self.joinEscapeKeyTime)
+        
+        save_widgets.init(self.antiAfkCheckbox)
+
+        save_widgets.init(self.joinCommandBox)
+        save_widgets.init(self.commandOnJoinTextField)
+
+        save_widgets.init(self.statusCommandBox)
+        save_widgets.init(self.periodicCommandTextField)
+
+
 
     def slider_update_label(self, slider: QtWidgets.QSlider, label: QtWidgets.QLabel):
         def _update():

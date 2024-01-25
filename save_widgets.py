@@ -80,3 +80,22 @@ def init(widget: QtWidgets.QWidget):
         print("Setting combobox to", val)
         widget.setCurrentText(val)
         widget.currentIndexChanged.connect(lambda: save_setting(widget.objectName(), widget.currentText()))
+    
+    # SpinBox
+    elif isinstance(widget, QtWidgets.QSpinBox):
+        if val is None:
+            val = widget.value()
+
+        widget.setValue(val)
+        widget.valueChanged.connect(lambda: save_setting(widget.objectName(), widget.value()))
+    
+    # Checkable group box
+    elif isinstance(widget, QtWidgets.QGroupBox):
+        if val is None:
+            val = widget.isChecked()
+
+        widget.setChecked(val)
+        widget.toggled.connect(lambda: save_setting(widget.objectName(), widget.isChecked()))
+
+    else:
+        raise Exception(f"Widget type {type(widget)} not supported for saving/loading settings")

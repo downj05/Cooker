@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>455</width>
-    <height>489</height>
+    <width>566</width>
+    <height>483</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -549,218 +549,311 @@
            </layout>
           </item>
           <item>
-           <widget class="QGroupBox" name="webhookSettingsGroupBox">
-            <property name="title">
-             <string>Webhook Settings</string>
+           <widget class="QTabWidget" name="extraSettingsTabWidget">
+            <property name="currentIndex">
+             <number>1</number>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_5">
-             <item>
-              <widget class="QCheckBox" name="webhookEnabledCheckBox">
-               <property name="toolTip">
-                <string>Enable webhook functionality</string>
-               </property>
-               <property name="text">
-                <string>Enabled</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="webhookUrlTextBox">
-               <property name="toolTip">
-                <string>Discord webhook url</string>
-               </property>
-               <property name="echoMode">
-                <enum>QLineEdit::Password</enum>
-               </property>
-               <property name="placeholderText">
-                <string>discord webhook url</string>
-               </property>
-               <property name="clearButtonEnabled">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="testWebhookButton">
-               <property name="toolTip">
-                <string>Test Discord webhook</string>
-               </property>
-               <property name="text">
-                <string>Test</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_2">
-               <property name="text">
-                <string>Warning/Ban Ping List</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QListView" name="listView">
-               <property name="modelColumn">
-                <number>0</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QGroupBox" name="webhookCriteria">
-               <property name="toolTip">
-                <string>Specify when to send webhook updates</string>
-               </property>
-               <property name="title">
-                <string>Webhook Criteria</string>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_6">
-                <property name="spacing">
-                 <number>6</number>
+            <widget class="QWidget" name="tab">
+             <attribute name="title">
+              <string>Experiments</string>
+             </attribute>
+             <layout class="QVBoxLayout" name="verticalLayout_13">
+              <item>
+               <widget class="QGroupBox" name="joinEscapeKeyCheckboxGroup">
+                <property name="title">
+                 <string>Press Escape key on joining</string>
                 </property>
-                <property name="leftMargin">
-                 <number>2</number>
+                <property name="checkable">
+                 <bool>true</bool>
                 </property>
-                <property name="rightMargin">
-                 <number>2</number>
+                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                 <item>
+                  <widget class="QLabel" name="label_4">
+                   <property name="text">
+                    <string>Press Escape after</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="joinEscapeKeyTime">
+                   <property name="value">
+                    <number>5</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_5">
+                   <property name="text">
+                    <string>seconds</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="antiAfkCheckbox">
+                <property name="toolTip">
+                 <string>Bypass anti-afk by doing a special dance</string>
                 </property>
-                <property name="bottomMargin">
-                 <number>9</number>
+                <property name="text">
+                 <string>Anti AFK Frank B Oogie / Dance</string>
                 </property>
-                <item>
-                 <widget class="QCheckBox" name="webhookPostDisconnectCheckBox">
-                  <property name="toolTip">
-                   <string>Send webhook whenever the player leaves the server</string>
-                  </property>
-                  <property name="text">
-                   <string>Player Disconnects</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="webhookPostPlayerDeathsCheckBox">
-                  <property name="toolTip">
-                   <string>Send webhook whenever the player dies</string>
-                  </property>
-                  <property name="text">
-                   <string>Player Deaths</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="webhookPostPlayerRejoinCheckBox">
-                  <property name="toolTip">
-                   <string>Send webhook whenever the player rejoins the server after being disconnected</string>
-                  </property>
-                  <property name="text">
-                   <string>Player Rejoins</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="Line" name="line">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="webhookPostPeriodicCheckBox">
-                  <property name="toolTip">
-                   <string>Periodically send status update webhooks (time elapsed, etc)</string>
-                  </property>
-                  <property name="text">
-                   <string>Periodic Status Update</string>
-                  </property>
-                 </widget>
-                </item>
-                <item alignment="Qt::AlignTop">
-                 <widget class="QFrame" name="periodicTimeIntervalFrame">
-                  <property name="toolTip">
-                   <string>How often to send status updates</string>
-                  </property>
-                  <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
-                  </property>
-                  <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_7">
-                   <property name="spacing">
-                    <number>6</number>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="joinCommandBox">
+                <property name="title">
+                 <string>Send Command/Message on Join</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_10">
+                 <item>
+                  <widget class="QLineEdit" name="commandOnJoinTextField">
+                   <property name="placeholderText">
+                    <string>e.g /job taxi</string>
                    </property>
-                   <property name="leftMargin">
-                    <number>6</number>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="statusCommandBox">
+                <property name="title">
+                 <string>Send Command/Message on Status Update</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_11">
+                 <item>
+                  <widget class="QLineEdit" name="periodicCommandTextField">
+                   <property name="placeholderText">
+                    <string>e.g /pay w32 5000</string>
                    </property>
-                   <property name="topMargin">
-                    <number>6</number>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="tab_2">
+             <attribute name="title">
+              <string>Webhook</string>
+             </attribute>
+             <layout class="QVBoxLayout" name="verticalLayout_12">
+              <item>
+               <widget class="QCheckBox" name="webhookEnabledCheckBox">
+                <property name="toolTip">
+                 <string>Enable webhook functionality</string>
+                </property>
+                <property name="text">
+                 <string>Enabled</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="webhookUrlTextBox">
+                <property name="toolTip">
+                 <string>Discord webhook url</string>
+                </property>
+                <property name="echoMode">
+                 <enum>QLineEdit::Password</enum>
+                </property>
+                <property name="placeholderText">
+                 <string>discord webhook url</string>
+                </property>
+                <property name="clearButtonEnabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="testWebhookButton">
+                <property name="toolTip">
+                 <string>Test Discord webhook</string>
+                </property>
+                <property name="text">
+                 <string>Test</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_2">
+                <property name="text">
+                 <string>Warning/Ban Ping List</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListView" name="pingList">
+                <property name="modelColumn">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="webhookCriteria">
+                <property name="toolTip">
+                 <string>Specify when to send webhook updates</string>
+                </property>
+                <property name="title">
+                 <string>Webhook Criteria</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_6">
+                 <property name="spacing">
+                  <number>6</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>2</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>2</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>9</number>
+                 </property>
+                 <item>
+                  <widget class="QCheckBox" name="webhookPostDisconnectCheckBox">
+                   <property name="toolTip">
+                    <string>Send webhook whenever the player leaves the server</string>
                    </property>
-                   <property name="rightMargin">
-                    <number>6</number>
+                   <property name="text">
+                    <string>Player Disconnects</string>
                    </property>
-                   <property name="bottomMargin">
-                    <number>6</number>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="webhookPostPlayerDeathsCheckBox">
+                   <property name="toolTip">
+                    <string>Send webhook whenever the player dies</string>
                    </property>
-                   <item>
-                    <layout class="QHBoxLayout" name="timeLabel">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="intervalTextLabel">
-                       <property name="text">
-                        <string>Status Interval:</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLabel" name="webhookPeriodicIntervalLabel">
-                       <property name="layoutDirection">
-                        <enum>Qt::RightToLeft</enum>
-                       </property>
-                       <property name="text">
-                        <string>1m</string>
-                       </property>
-                       <property name="alignment">
-                        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <widget class="QSlider" name="webhookPeriodicIntervalSlider">
-                     <property name="toolTip">
-                      <string>test</string>
-                     </property>
-                     <property name="toolTipDuration">
-                      <number>-1</number>
-                     </property>
-                     <property name="minimum">
-                      <number>1</number>
-                     </property>
-                     <property name="maximum">
-                      <number>3000</number>
-                     </property>
-                     <property name="value">
-                      <number>60</number>
-                     </property>
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="invertedAppearance">
-                      <bool>false</bool>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-            </layout>
+                   <property name="text">
+                    <string>Player Deaths</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="webhookPostPlayerRejoinCheckBox">
+                   <property name="toolTip">
+                    <string>Send webhook whenever the player rejoins the server after being disconnected</string>
+                   </property>
+                   <property name="text">
+                    <string>Player Rejoins</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="Line" name="line">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="webhookPostPeriodicCheckBox">
+                   <property name="toolTip">
+                    <string>Periodically send status update webhooks (time elapsed, etc)</string>
+                   </property>
+                   <property name="text">
+                    <string>Periodic Status Update</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item alignment="Qt::AlignTop">
+                  <widget class="QFrame" name="periodicTimeIntervalFrame">
+                   <property name="toolTip">
+                    <string>How often to send status updates</string>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_7">
+                    <property name="spacing">
+                     <number>6</number>
+                    </property>
+                    <property name="leftMargin">
+                     <number>6</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>6</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>6</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>6</number>
+                    </property>
+                    <item>
+                     <layout class="QHBoxLayout" name="timeLabel">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QLabel" name="intervalTextLabel">
+                        <property name="text">
+                         <string>Status Interval:</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="webhookPeriodicIntervalLabel">
+                        <property name="layoutDirection">
+                         <enum>Qt::RightToLeft</enum>
+                        </property>
+                        <property name="text">
+                         <string>1m</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <widget class="QSlider" name="webhookPeriodicIntervalSlider">
+                      <property name="toolTip">
+                       <string>Interval between sending status updates</string>
+                      </property>
+                      <property name="toolTipDuration">
+                       <number>-1</number>
+                      </property>
+                      <property name="minimum">
+                       <number>1</number>
+                      </property>
+                      <property name="maximum">
+                       <number>3000</number>
+                      </property>
+                      <property name="value">
+                       <number>60</number>
+                      </property>
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="invertedAppearance">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
            </widget>
           </item>
          </layout>
@@ -838,8 +931,6 @@
   <tabstop>serverIP</tabstop>
   <tabstop>serverPort</tabstop>
   <tabstop>serverPassword</tabstop>
-  <tabstop>webhookEnabledCheckBox</tabstop>
-  <tabstop>webhookUrlTextBox</tabstop>
   <tabstop>webhookPostDisconnectCheckBox</tabstop>
   <tabstop>webhookPostPeriodicCheckBox</tabstop>
   <tabstop>webhookPeriodicIntervalSlider</tabstop>

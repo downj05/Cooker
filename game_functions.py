@@ -139,6 +139,19 @@ def join_server(address, port, password=None, overlay=None):
     print("Client initialized battle eye!")
     print("Client has joined the server!")
 
+@focus_unturned
+def escape_key():
+    print("game_functions.escape_key: pressing escape key")
+    py.press("esc")
+
+@focus_unturned
+def send_message(msg: str):
+    print("game_functions.send_message: sending message: ", msg)
+    py.press("l")
+    time.sleep(0.5)
+    py.write(msg)
+    py.press("enter")
+
 if __name__ == '__main__':
     time.sleep(2)
     frank_b_oogie()
