@@ -14,6 +14,7 @@ from log_reader import get_resolution
 
 IMG = pth.join(pth.dirname(pth.abspath(__file__)), "img")
 
+
 def img_path(img):
     # Get resolution
     x,y = get_resolution()
@@ -60,7 +61,7 @@ def get_unturned_window() -> int:
         _, pid = GetWindowThreadProcessId(hwnd)
         try:
             process = psutil.Process(pid)
-            if process.exe() == unturned_exe and GetWindowText(hwnd) == unturned_window_title:
+            if process.exe().lower() == unturned_exe.lower() and GetWindowText(hwnd) == unturned_window_title:
                 hwnds.append(hwnd)
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
