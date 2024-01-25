@@ -146,6 +146,13 @@ class StartCookerButtonLogic(QObject):
                             w.info(status_tuple=(time_in_game, total_time, self.window.cookTimeSlider.value()), rejoins_session=rejoins_session, message="Rejoined server")
 
                         rejoins_session += 1
+                elif game.is_unturned_running() == False:
+                    print("Game is not running! A crash has possibly occured!")
+                    # Error
+                    if w is not None:
+                        w.error(traceback="Game is not running! A crash has possibly occured!", status_tuple=(time_in_game, total_time, self.window.cookTimeSlider.value()))
+                        show_message(self.window.startCooker, "Error", f"Game is not running! A crash has possibly occured!")
+                
                 else:
 
                     # Check if user can send a periodic webhook
