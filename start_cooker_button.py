@@ -24,24 +24,35 @@ class StartCookerButtonLogic(QObject):
             port = self.window.serverPort.text()
             password = self.window.serverPassword.text()
 
+            while True:
 
-            try:
-                # self.overlay = OverlayWindow()
-                # self.overlay.show()
-                # dim = self.overlay.geometry()
-                # self.overlay.play_gif("oven.gif", dim.width() / 2 - 100, dim.height() / 2 - 100, 200, 200, duration=1)
-                # If unturned isnt open, open it via GUI
-                # if not game.is_unturned_running():
-                #     self.startGame.click()
-                print("StartCookerButtonLogic: starting cooker loop")
-                self.cookerLoop(ip, port, password)
+                try:
+                    # self.overlay = OverlayWindow()
+                    # self.overlay.show()
+                    # dim = self.overlay.geometry()
+                    # self.overlay.play_gif("oven.gif", dim.width() / 2 - 100, dim.height() / 2 - 100, 200, 200, duration=1)
+                    # If unturned isnt open, open it via GUI
+                    # if not game.is_unturned_running():
+                    #     self.startGame.click()
+                    print("StartCookerButtonLogic: starting cooker loop")
+                    self.cookerLoop(ip, port, password)
 
-            except Exception as e:
-                print('GUI failed to join server')
-                traceback.print_exc()
-                show_message(self.window.startCooker, "Error", f"Failed to join server\n{e}")
-                return
 
+
+                except Exception as e:
+                    print('GUI failed to join server')
+                    traceback.print_exc()
+                    show_message(self.window.startCooker, "Error", f"Failed to join server\n{e}")
+                    return
+                finally:
+                    if not self.window.loopCookCheckbox.isChecked():
+                        break
+                    else:
+                        print("StartCookerButtonLogic: Looping cooker")
+                        show_message(self.window.startCooker, "Looping cooker", f"Looping cooker\nWaiting {self.window.loopSpinBox.value()} seconds")
+                        w = webhook.Webhook(self.window.webhookUrlTextBox.text())
+                        w.info(status_tuple=(0, 0, self.window.cookTimeSlider.value()), rejoins_session=0, message=f"Looping cooker! We doing it again!!")
+                        time.sleep(self.window.loopSpinBox.value())
 
 
     def cookerLoop(self, ip, port, password):
@@ -86,7 +97,7 @@ class StartCookerButtonLogic(QObject):
                 print("cookerLoop: Sending status webhook")
                 # New call
                 status_tuple = (time_in_game, total_time, self.window.cookTimeSlider.value())
-                w.info(status_tuple=status_tuple, rejoins_session=rejoins_session)
+                w.info(status_tuple=status_tuple, rejoins_session=rejoins_session, message="Joined server!")
 
             
             # First element is a boolean that is set to false when the pattern is found
@@ -192,6 +203,9 @@ class StartCookerButtonLogic(QObject):
             # Get traceback as string
             tb = traceback.format_exc()
             print(tb)
-            w.error(traceback=tb, status_tuple=(time_in_game, total_time, self.window.cookTimeSlider.value()))
+            try:
+                w.error(traceback=tb, status_tuple=(time_in_game, total_time, self.window.cookTimeSlider.value()))
+            except:
+                pass
             show_message(self.window.startCooker, "Error", f"Error during cooking\n{e}")
             return

@@ -79,7 +79,7 @@ class Webhook:
 
 
     def info(self, status_tuple: Tuple[int, int, int], rejoins_session: int, message:str=""):
-        embed=discord.Embed(title="Info!", description=message, color=0x00D0FF)
+        embed=discord.Embed(title=f"Info: {message}", description=message, color=0x00D0FF)
         embed.set_author(name=self.NAME)
         embed, file = self._screenshot(embed)
         embed.add_field(name=self._status_string(status_tuple=status_tuple), value=f"User has rejoined {rejoins_session} times",  inline=False)
@@ -96,8 +96,12 @@ class Webhook:
         self._send(embed=embed, file=file)
     
     def _send(self, embed: discord.Embed, file: discord.File = None):
-        if file is None:
-            self.webhook.send(embed=embed)
+        try:
+            if file is None:
+                self.webhook.send(embed=embed)
+                return
+            self.webhook.send(embed=embed, file=file)
             return
-        self.webhook.send(embed=embed, file=file)
-        return
+        except Exception as e:
+            print("Webhook._send: Error sending webhook: ", e)
+            return

@@ -66,8 +66,10 @@ class GuiLogic(Ui_MainWindow):
         self.gameButtonLogic = GameButtonLogic(self.startGame, self)
 
         # Set up slider logic
+        self.slider_update_label_taken_dict = {}
         self.slider_update_label(self.cookTimeSlider, self.cookTimeLabelTime)
         self.slider_update_label(self.webhookPeriodicIntervalSlider, self.webhookPeriodicIntervalLabel)
+
 
 
         # Server settings
@@ -117,7 +119,19 @@ class GuiLogic(Ui_MainWindow):
     def slider_update_label(self, slider: QtWidgets.QSlider, label: QtWidgets.QLabel):
         def _update():
             label.setText(helpers.seconds_to_hms(int(slider.value())))
+            if slider.objectName in self.slider_update_label_taken_dict:
+                self.slider_update_label_taken_dict[slider.objectName] = False
+                return
         slider.valueChanged.connect(_update)
+
+        # If lable is a text box, update the slider when the text box is changed
+        # Use a helper function to convert the hms (e.g 3h20s) to seconds
+        if isinstance(label, QtWidgets.QLineEdit):
+            def _update_slider():
+                self.slider_update_label_taken_dict[slider.objectName] = True
+                slider.setValue(helpers.hms_to_seconds(label.text()))
+            label.textChanged.connect(_update_slider)
+
 
 
     def webhookTest(self):
@@ -125,6 +139,7 @@ class GuiLogic(Ui_MainWindow):
         try:
             w = webhook.Webhook(self.webhookUrlTextBox.text())
             w.test()
+            show_message(self.testWebhookButton, "Success", "Webhook sent successfully")
 
             # Focus GUI
         except Exception as e:

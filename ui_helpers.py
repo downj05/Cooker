@@ -4,7 +4,7 @@ def show_message(parent, title, message):
     msg = QtWidgets.QMessageBox(parent)
     msg.setWindowTitle(title)
     msg.setText(message)
-    msg.exec_()
+    msg.show()
 
 def input_dialog(parent, title, message):
     text, ok = QtWidgets.QInputDialog.getText(parent, title, message)

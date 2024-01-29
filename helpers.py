@@ -43,6 +43,27 @@ def seconds_to_hms(seconds):
         parts.append("{}s".format(int(seconds)))
     return "".join(parts)
 
+def hms_to_seconds(hms: str) -> int:
+    try:
+        seconds = 0
+        if 'h' in hms:
+            hours, hms = hms.split('h')
+            # remove any other h's
+            hms = hms.replace('h', '')
+            seconds += int(hours) * 3600
+        if 'm' in hms:
+            minutes, hms = hms.split('m')
+            # remove any other m's
+            hms = hms.replace('m', '')
+            seconds += int(minutes) * 60
+        if 's' in hms:
+            # remove any other s's
+            seconds += int(hms.split('s')[0].replace('s', ''))
+        return seconds
+    except Exception as e:
+        print(f"hms_to_seconds: error: {e}")
+        return 0
+
 def kill_unturned():
     print('Helpers is killing unturned')
     for proc in psutil.process_iter(['pid', 'name']):
@@ -139,7 +160,6 @@ overlay=None):
 
 
 if __name__ == '__main__':
-    @focus_unturned
-    def test():
-        print("test: hello world")
-    test()
+    while True:
+        s = input("hms:")
+        print(hms_to_seconds(s))
