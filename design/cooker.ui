@@ -650,7 +650,7 @@
                 <property name="checkable">
                  <bool>true</bool>
                 </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                <layout class="QVBoxLayout" name="verticalLayout_3">
                  <item>
                   <widget class="QLabel" name="label_6">
                    <property name="text">
@@ -659,7 +659,11 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QSpinBox" name="loopSpinBox"/>
+                  <widget class="QSpinBox" name="loopSpinBox">
+                   <property name="maximum">
+                    <number>9999999</number>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </widget>
