@@ -106,7 +106,7 @@ class GuiLogic(Ui_MainWindow):
         save_widgets.init(self.joinEscapeKeyCheckboxGroup)
         save_widgets.init(self.joinEscapeKeyTime)
         
-        save_widgets.init(self.antiAfkCheckbox)
+        save_widgets.init(self.antiAfkMethodComboBox)
 
         save_widgets.init(self.joinCommandBox)
         save_widgets.init(self.commandOnJoinTextField)

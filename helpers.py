@@ -4,6 +4,8 @@ import time
 import os.path as pth
 import os
 import psutil
+from win32api import mouse_event
+from win32con import MOUSEEVENTF_MOVE
 from typing import Tuple, Union
 from win32gui import SetForegroundWindow, FindWindow, GetWindowText, EnumWindows, GetWindowRect, BringWindowToTop, ShowWindow
 from win32process import GetWindowThreadProcessId
@@ -94,6 +96,23 @@ def get_unturned_window() -> int:
         return hwnds[0]
 
     raise Exception("Unturned window not found")
+
+def move_mouse_delta(dx, dy):
+    mouse_event(MOUSEEVENTF_MOVE, dx, dy, 0, 0)
+
+def turn_mouse(dx, dy, speed):
+    x_steps = abs(dx) // speed
+    y_steps = abs(dy) // speed
+
+    # Move in x direction
+    for _ in range(x_steps):
+        move_mouse_delta(speed if dx > 0 else -speed, 0)
+        time.sleep(0.01)  # sleep for 10 milliseconds
+
+    # Move in y direction
+    for _ in range(y_steps):
+        move_mouse_delta(0, speed if dy > 0 else -speed)
+        time.sleep(0.01)  # sleep for 10 milliseconds
 
 def get_unturned_window_size() -> Union[int, int]:
     hwnd = get_unturned_window()

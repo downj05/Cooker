@@ -116,8 +116,17 @@ class StartCookerButtonLogic(QObject):
                 # Take time at start of loop to calculate session time + total time
                 s = time.time()
                 # Dance / Anti AFK logic
-                if self.window.antiAfkCheckbox.isChecked():
-                    game.frank_b_oogie(loop=False)
+                afk_choice = self.window.antiAfkMethodComboBox.currentText()
+                if "None" not in afk_choice:
+                    if "Frank B Oogie" in afk_choice:
+                        print("cookerLoop: Frank B Oogie")
+                        game.frank_b_oogie(loop=False)
+                    elif "Micro Movements" in afk_choice:
+                        print("cookerLoop: Micro Movements")
+                        game.micro_movements()
+                    elif "Random Walk" in afk_choice:
+                        print("cookerLoop: Random Walk")
+                        game.random_walk()
                 else:
                     # Sleep for a few seconds to prevent the script from running too fast
                     time.sleep(5)

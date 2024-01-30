@@ -1,9 +1,10 @@
-from helpers import click_image, focus_unturned, is_unturned_running, kill_unturned
+from helpers import click_image, focus_unturned, is_unturned_running, kill_unturned, move_mouse_delta, turn_mouse
 import steam_helpers
 import pyautogui as py
 import time
 from PyQt5.QtCore import QThread, pyqtSignal
 import log_reader
+from random import randint, choice
 
 
 def launch_unturned(wait_for_menu=False,**kwargs):
@@ -113,6 +114,42 @@ def frank_b_oogie(loop=False):
         if not loop:
             break
 
+
+@focus_unturned
+def micro_movements():
+    time.sleep(randint(1,5))
+    c = choice(['wiggle', 'mouse', 'inventory'])
+    if c is 'wiggle':
+        # Random wiggle
+        c = choice(['q', 'e'])
+        py.keyDown(c)
+        time.sleep(0.05)
+        py.keyUp(c)
+        return
+    if c is 'mouse':
+        # Random mouse movement
+        x = randint(-20, 20)
+        y = randint(-5, 5)
+        move_mouse_delta(x, y)
+        return
+    if c is 'inventory':
+        # Open inventory
+        py.press("g")
+        time.sleep(randint(1, 6))
+        # Close inventory
+        py.press("g")
+        return
+
+
+def random_walk():
+    forward = 'w'
+    py.keyUp(forward)
+    time.sleep(randint(1,8))
+    py.keyDown(forward)
+    turn_mouse(randint(-800, 800), randint(-50, 50), 6)
+    time.sleep(randint(1,8))
+    return
+
 @focus_unturned
 def join_server(address, port, password=None, overlay=None):
     print("WARNING: THIS FUNCTION IS DEPRECATED, USE JoinServerThread INSTEAD!! :D")
@@ -153,5 +190,8 @@ def send_message(msg: str):
     py.press("enter")
 
 if __name__ == '__main__':
-    time.sleep(2)
-    frank_b_oogie()
+    for _ in range(2):
+        time.sleep(1)
+    print('starting')
+    while True:
+        random_walk()

@@ -595,13 +595,61 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="antiAfkCheckbox">
-                <property name="toolTip">
-                 <string>Bypass anti-afk by doing a special dance</string>
+               <widget class="QFrame" name="frame">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
                 </property>
-                <property name="text">
-                 <string>Anti AFK Frank B Oogie / Dance</string>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
                 </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_7">
+                   <property name="text">
+                    <string>Anti-AFK Method:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="antiAfkMethodComboBox">
+                   <item>
+                    <property name="text">
+                     <string extracomment="Do not use anti-afk">None</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Micro Movements (Most Subtle)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Random Walk (Somewhat Subtle)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Frank B Oogie (Least Subtle)</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </item>
               <item>
