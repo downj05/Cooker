@@ -165,9 +165,9 @@ overlay=None):
             if press_key_on_fail is not None:
                 py.press(press_key_on_fail)
                 # Click in the corner incase the menu button is highlighted
-                size_x, size_y = get_unturned_window_size()
+                win_x, win_y, _, _ = get_unturned_window_dimensions()
                 # click in the top left corner (x and y size minus 10)
-                py.click(size_x+10, size_y+10)
+                py.click(win_x+10, win_y+10)
                 time.sleep(0.1)
             continue
     py.leftClick(x, y)
@@ -185,5 +185,8 @@ overlay=None):
 
 if __name__ == '__main__':
     while True:
-        s = input("hms:")
-        print(hms_to_seconds(s))
+        focus_unturned_window()
+        win_x, win_y, _, _ = get_unturned_window_dimensions()
+        # click in the top left corner (x and y size minus 10)
+        py.click(win_x+50, win_y+50)
+        time.sleep(5)
