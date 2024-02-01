@@ -4,14 +4,17 @@ import pyautogui as py
 from typing import Tuple
 from helpers import get_unturned_window_dimensions, focus_unturned_window
 from game_functions import is_unturned_running
+import info_tab
 import os
 
 class Webhook:
-    def __init__(self, url):
+    def __init__(self, url, steam64, username):
         print("init webhook")
-        self.NAME = "Account Cooker"
+        self.NAME = f"Account Cooker | {info_tab.get_hostname()}"
         self.url = url
         self.webhook = discord.SyncWebhook.from_url(self.url)
+        self.steam64 = steam64
+        self.username = username
 
     @staticmethod
     def _screenshot(embed):
@@ -92,10 +95,14 @@ class Webhook:
 
         embed, file = self._screenshot(embed)
 
-        embed.set_footer(text="If you are seeing this, then it worked!")
+        # embed.set_footer(text="If you are seeing this, then it worked!")
         self._send(embed=embed, file=file)
     
     def _send(self, embed: discord.Embed, file: discord.File = None):
+        # if no footer on embed, put our own
+        if embed.footer.text is None:
+            embed.set_footer(text=f"Steam64: {self.steam64} Username: {self.username}")
+
         try:
             if file is None:
                 self.webhook.send(embed=embed)

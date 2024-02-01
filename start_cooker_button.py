@@ -50,7 +50,7 @@ class StartCookerButtonLogic(QObject):
                     else:
                         print("StartCookerButtonLogic: Looping cooker")
                         show_message(self.window.startCooker, "Looping cooker", f"Looping cooker\nWaiting {self.window.loopSpinBox.value()} seconds")
-                        w = webhook.Webhook(self.window.webhookUrlTextBox.text())
+                        w = webhook.Webhook(self.window.webhookUrlTextBox.text(), self.window.steam64Txt.text(), self.window.steamUsernameTxt.text())
                         w.info(status_tuple=(0, 0, self.window.cookTimeSlider.value()), rejoins_session=0, message=f"Looping cooker! We doing it again!!")
                         time.sleep(self.window.loopSpinBox.value())
 
@@ -86,7 +86,7 @@ class StartCookerButtonLogic(QObject):
 
             # Webhook init
             if self.window.webhookEnabledCheckBox.isChecked():
-                w = webhook.Webhook(self.window.webhookUrlTextBox.text())
+                w = webhook.Webhook(self.window.webhookUrlTextBox.text(), self.window.steam64Txt.text(), self.window.steamUsernameTxt.text())
             else:
                 w = None
 

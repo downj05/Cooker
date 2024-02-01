@@ -5,6 +5,15 @@ import psutil
 import socket
 import time
 
+def get_hostname():
+    return socket.gethostname()
+
+def get_cpu_usage():
+    return psutil.cpu_percent()
+
+def get_ram_usage():
+    return psutil.virtual_memory().percent
+
 
 class SystemInfoThread(QThread):
     update_cpu_ram = pyqtSignal(str, str)

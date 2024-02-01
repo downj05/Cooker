@@ -86,7 +86,10 @@ def is_in_game():
     or the "Leaving" pattern
     """
     last_status_pattern = r"(Disconnecting: .*|Accepted by server)"
-    last = get_all_lines(last_status_pattern)[-1]
+    last = get_all_lines(last_status_pattern)
+    if len(last) == 0:
+        return False
+    last = last[-1]
     if "Disconnecting" in last.group(1):
         return False
     elif "Accepted by server" in last.group(1):
