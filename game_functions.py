@@ -59,41 +59,50 @@ class JoinServerThread(QThread):
     joined_server = pyqtSignal()
 
 
-    def __init__(self, address, port, password=None, overlay=None):
+    def __init__(self, address, port, password=None, overlay=None, retries=3):
         super().__init__()
         self.address = address
         self.port = port
         self.password = password
         self.overlay = overlay
+        self.retries = retries
         print("JoinServerThread: init")
     
     
     def run(self):
-            print("JoinServerThread: Joining server with address: ", self.address, ":", self.port, " password: ", self.password[:2] + "*" * len(self.password[2:]))
-            click_image("menu_play.png", press_key_on_fail="esc", confidence=0.9)
-            click_image("connect_ip.png", confidence=0.9)
-            click_image("ip_field.png", x_offset=-200)
-            py.write(self.address)
-            click_image("port_field.png", x_offset=-200)
-            py.write(str(self.port))
-            if self.password is not None:
-                click_image("password_field.png", x_offset=-100, confidence=0.7)
-                py.write(self.password)
-            click_image("ip_connect_button.png", confidence=0.7)
-            click_image("join_button.png", confidence=0.75)
-            print("Client is connecting to server")
-            print("User is loading assets etc")
-            self.loading_assets.emit()
+        for i in range(self.retries):
+            try:
+                print("JoinServerThread: Joining server with address: ", self.address, ":", self.port, " password: ", self.password[:2] + "*" * len(self.password[2:]))
+                click_image("menu_play.png", press_key_on_fail="esc", confidence=0.9)
+                click_image("connect_ip.png", confidence=0.9)
+                click_image("ip_field.png", x_offset=-200)
+                py.write(self.address)
+                click_image("port_field.png", x_offset=-200)
+                py.write(str(self.port))
+                if self.password is not None:
+                    click_image("password_field.png", x_offset=-100, confidence=0.7)
+                    py.write(self.password)
+                click_image("ip_connect_button.png", confidence=0.7)
+                click_image("join_button.png", confidence=0.75)
+                print("JoinServerThread: Client is connecting to server")
+                print("JoinServerThread: User is loading assets etc")
+                self.loading_assets.emit()
 
-            print("game functions match:", log_reader.wait_for_pattern(r"Ready to connect").group())
-            print("Assets loaded! Client performing authentication with server!")
-            print("game functions match:", log_reader.wait_for_pattern(r"Accepted by server").group())
-            print("Client authenticated with server!")
-            print("Client is initializing battle eye")
-            print("game functions match:", log_reader.wait_for_pattern(r"BattlEye client message: Initialized").group())
-            print("Client initialized battle eye!")
-            print("Client has joined the server!")
-            self.joined_server.emit()
+                print("JoinServerThread: game functions match:", log_reader.wait_for_pattern(r"Ready to connect").group())
+                print("JoinServerThread: Assets loaded! Client performing authentication with server!")
+                print("JoinServerThread: game functions match:", log_reader.wait_for_pattern(r"Accepted by server").group())
+                print("JoinServerThread: Client authenticated with server!")
+                print("JoinServerThread: Client is initializing battle eye")
+                print("JoinServerThread: game functions match:", log_reader.wait_for_pattern(r"BattlEye client message: Initialized").group())
+                print("JoinServerThread: Client initialized battle eye!")
+                print("JoinServerThread: Client has joined the server!")
+                self.joined_server.emit()
+                return
+            except Exception as e:
+                print(f"JoinServerThread: error during server join! : {e}")
+                print(f"JoinServerThread: trying it again! ({i}/{self.retries}) retries")
+                time.sleep(1)
+                continue
 
 @focus_unturned
 def frank_b_oogie(loop=False):

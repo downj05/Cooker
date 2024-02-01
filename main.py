@@ -1,17 +1,15 @@
 
 from PyQt5 import QtWidgets, QtGui, QtCore
 from gui import Ui_MainWindow
-from overlay_window import OverlayWindow
 import save_widgets
 import traceback
-from qt_material import apply_stylesheet
+from info_tab import init_info_tab
+import qdarkstyle
 import game_functions as game
-import pyautogui as py
 from os import path
 import webhook
 import time
 import helpers
-from log_reader import LogReaderThread
 from start_unturned_button import GameButtonLogic
 from join_server_button import JoinButtonLogic
 import random
@@ -19,6 +17,7 @@ from string import ascii_lowercase, digits
 from ui_helpers import show_message, input_dialog
 from server_combo import ServerComboBoxLogic
 from start_cooker_button import StartCookerButtonLogic
+
 
 ICON_PATH = path.join('design', 'icons', 'Company_Logo.ico')
 
@@ -30,6 +29,7 @@ def test(e):
 
 class GuiLogic(Ui_MainWindow):
     def __init__(self, app):
+        print("GuiLogic: init")
         super().__init__()
         self.setupUi(app)
         # Set window title
@@ -115,6 +115,11 @@ class GuiLogic(Ui_MainWindow):
         save_widgets.init(self.periodicCommandTextField)
 
 
+        # Info
+
+        # Set up device info logic
+        self.system_info_thread = init_info_tab(self.cpuTxt, self.ramTxt, self.hostnameTxt, self.steam64Txt, self.steamUsernameTxt)
+
 
     def slider_update_label(self, slider: QtWidgets.QSlider, label: QtWidgets.QLabel):
         def _update():
@@ -170,10 +175,17 @@ class GuiLogic(Ui_MainWindow):
 
 
 if __name__ == "__main__":
+    print("main: init")
     import sys, ctypes
+
+    
+    print("main: create app")
+    app = QtWidgets.QApplication(sys.argv)
+
+    print("main: set app id")
     myappid = f'company.cooker.{"".join([random.choice([random.choice(ascii_lowercase), random.choice(digits)]) for c in range(16)])}' # arbitrary string
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
-    app = QtWidgets.QApplication(sys.argv)
+    
     extra = {
     'font_family': 'Roboto',
     'font_size': '10px',
@@ -181,9 +193,14 @@ if __name__ == "__main__":
     # Density Scale
     'density_scale': '-1',
 }
-    apply_stylesheet(app, theme='pink.xml', extra=extra, )
+    # apply_stylesheet(app, theme='pink.xml', extra=extra, )
+    print("main: apply stylesheet")
+    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
 
+    print("main: create main window")
     MainWindow = QtWidgets.QMainWindow()
+    print("main: create gui logic")
     ui = GuiLogic(MainWindow)
+    print("main: show main window")
     MainWindow.show()
     sys.exit(app.exec_())

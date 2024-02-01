@@ -1,8 +1,21 @@
 import os
 import json
 from PyQt5 import QtWidgets
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import QShortcut
+from PyQt5.QtGui import QKeySequence
 
 SETTINGS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'settings.json')
+
+class KeyPressEater(QtCore.QObject):
+    def eventFilter(self, obj, event):
+        if event.type() == QtCore.QEvent.KeyPress:
+            key = event.key()
+            modifiers = event.modifiers()
+            if modifiers == QtCore.Qt.ControlModifier and key == QtCore.Qt.Key_P:
+                print("Ctrl+P pressed")
+                return True
+        return super().eventFilter(obj, event)
 
 def save_setting(key, value):
     if 'webhookUrlTextBox' in key or 'password' in key.lower():
@@ -63,6 +76,10 @@ def init(widget: QtWidgets.QWidget):
 
         widget.setText(val)
         widget.textChanged.connect(lambda: save_setting(widget.objectName(), widget.text()))
+
+        print(f"save_widgets.init: Setting up shortcut for {widget.objectName()}")
+        eater = KeyPressEater()
+        widget.installEventFilter(eater)
 
     # Slider
     elif isinstance(widget, QtWidgets.QSlider):

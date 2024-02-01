@@ -4,6 +4,9 @@ import time
 import os.path as pth
 import os
 import psutil
+import socket
+from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtWidgets import QLineEdit
 from win32api import mouse_event
 from win32con import MOUSEEVENTF_MOVE
 from typing import Tuple, Union
@@ -128,7 +131,7 @@ def focus_unturned_window():
     print("focus_unturned: finding unturned window")
     hwnd = get_unturned_window()
     # maximize window
-    print("focus_unturned: maximizing unturned window")
+    print(f"focus_unturned: maximizing unturned window")
     SetForegroundWindow(hwnd)
     ShowWindow(hwnd, 5)
     BringWindowToTop(hwnd)
@@ -142,7 +145,7 @@ def focus_unturned(func):
 
 @focus_unturned
 def click_image(
-    image, confidence=0.8, timeout=10, x_offset=0, y_offset=0, press_key_on_fail=None,
+    image, confidence=0.8, timeout=4, x_offset=0, y_offset=0, press_key_on_fail=None,
 overlay=None):
     image = img_path(image)
     print("click_image: ", image)
@@ -163,8 +166,8 @@ overlay=None):
                 py.press(press_key_on_fail)
                 # Click in the corner incase the menu button is highlighted
                 size_x, size_y = get_unturned_window_size()
-                # click in the top right corner (x and y size minus 10)
-                py.click(size_x-10, size_y-10)
+                # click in the top left corner (x and y size minus 10)
+                py.click(size_x+10, size_y+10)
                 time.sleep(0.1)
             continue
     py.leftClick(x, y)
@@ -176,6 +179,8 @@ overlay=None):
         print(f"clicked {image} at {x}, {y} with offset {x_offset}, {y_offset}")
         return
     print(f"clicked {image} at {x}, {y}")
+
+
 
 
 if __name__ == '__main__':

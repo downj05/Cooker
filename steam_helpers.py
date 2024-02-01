@@ -1,6 +1,8 @@
 from registry_helpers import *
 import os
 import vdf
+import requests
+from bs4 import BeautifulSoup
 
 UNTURNED_APP_ID = 304930
 
@@ -102,7 +104,17 @@ def get_unturned_drive():
     print("Error: Unturned not found in Steam libraries")
     return None
 
+def get_persona_name(id: int):
+    url = f"https://steamcommunity.com/profiles/{id}"
+    response = requests.get(url)
 
+    soup = BeautifulSoup(response.text, 'html.parser')
+    persona_name_element = soup.find('span', class_='actual_persona_name')
+
+    if persona_name_element is not None:
+        return persona_name_element.text
+    else:
+        return None
 
 def get_unturned_path():
     libraries = get_steam_library()
@@ -123,4 +135,4 @@ def launch_steam_game(id: int):
     print(f"launch_steam_game: launched game with arguments: {DEFAULT_ARGS}")
 
 if __name__ == '__main__':
-    launch_steam_game(UNTURNED_APP_ID)
+    print(get_persona_name(get_latest_user_steam64()))
