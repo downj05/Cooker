@@ -111,7 +111,7 @@ class GuiLogic(Ui_MainWindow):
         save_widgets.init(self.joinCommandBox)
         save_widgets.init(self.commandOnJoinTextField)
 
-        save_widgets.init(self.statusCommandBox)
+        save_widgets.init(self.periodicStatusCommandGroupCheckBox)
         save_widgets.init(self.periodicCommandTextField)
 
         save_widgets.init(self.loopCookCheckbox)

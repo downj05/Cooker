@@ -4,13 +4,13 @@ import time
 import os.path as pth
 import os
 import psutil
-import socket
+import ctypes
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QLineEdit
 from win32api import mouse_event
 from win32con import MOUSEEVENTF_MOVE
 from typing import Tuple, Union
-from win32gui import SetForegroundWindow, FindWindow, GetWindowText, EnumWindows, GetWindowRect, BringWindowToTop, ShowWindow
+from win32gui import SetForegroundWindow, FindWindow, GetWindowText, EnumWindows, GetWindowRect, BringWindowToTop, ShowWindow, IsIconic
 from win32process import GetWindowThreadProcessId
 from overlay_window import OverlayWindow
 from steam_helpers import get_unturned_path
@@ -128,14 +128,23 @@ def get_unturned_window_dimensions() -> Tuple[int, int, int, int]:
     return rect[0], rect[1], rect[2], rect[3]
 
 def focus_unturned_window():
-    print("focus_unturned: finding unturned window")
     hwnd = get_unturned_window()
+
+    # simulate an input event
+    ctypes.windll.user32.keybd_event(0, 0, 0, 0)
+
     # maximize window
-    print(f"focus_unturned: maximizing unturned window")
-    SetForegroundWindow(hwnd)
+    try:
+        SetForegroundWindow(hwnd)
+    except Exception as e:
+        print(f"focus_unturned_window: error: {e}")
     ShowWindow(hwnd, 5)
     BringWindowToTop(hwnd)
-    time.sleep(0.25)
+    # move mouse to center of window if its not minimized
+    if IsIconic(hwnd) == 0:
+        x, y, s_x, s_y = get_unturned_window_dimensions()
+        py.moveTo(x + (s_x - x) // 2, y + (s_y - y) // 2)
+
 
 def focus_unturned(func):
     def wrapper(*args, **kwargs):
@@ -188,5 +197,5 @@ if __name__ == '__main__':
         focus_unturned_window()
         win_x, win_y, _, _ = get_unturned_window_dimensions()
         # click in the top left corner (x and y size minus 10)
-        py.click(win_x+50, win_y+50)
-        time.sleep(5)
+        # py.click(win_x+50, win_y+50)
+        time.sleep(2)

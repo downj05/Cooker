@@ -51,7 +51,8 @@ class StartCookerButtonLogic(QObject):
                         print("StartCookerButtonLogic: Looping cooker")
                         show_message(self.window.startCooker, "Looping cooker", f"Looping cooker\nWaiting {self.window.loopSpinBox.value()} seconds")
                         w = webhook.Webhook(self.window.webhookUrlTextBox.text(), self.window.steam64Txt.text(), self.window.steamUsernameTxt.text())
-                        w.info(status_tuple=(0, 0, self.window.cookTimeSlider.value()), rejoins_session=0, message=f"Looping cooker! We doing it again!!")
+                        game.kill_unturned()
+                        w.info(status_tuple=(0, 0, self.window.cookTimeSlider.value()), rejoins_session=0, message=f"Looping cooker! We doing it again in {self.window.loopSpinBox.value()} seconds!")
                         time.sleep(self.window.loopSpinBox.value())
 
 
@@ -111,6 +112,8 @@ class StartCookerButtonLogic(QObject):
 
 
             print("cookerLoop: Starting cooker loop")
+            # Keep track of last status update time, set to start time for now
+            last_status_update = time.time()
             while True:
                 print("cookerLoop: Starting cooker loop iteration")
                 # Take time at start of loop to calculate session time + total time
@@ -130,6 +133,8 @@ class StartCookerButtonLogic(QObject):
                 else:
                     # Sleep for a few seconds to prevent the script from running too fast
                     time.sleep(5)
+
+                
 
                 # Disconnect + Rejoin logic
                 if connected_to_server[0] == False:
@@ -178,14 +183,17 @@ class StartCookerButtonLogic(QObject):
                     # Check if user can send a periodic webhook
                     if self.window.webhookPostPeriodicCheckBox.isChecked():
                         # Use self.webhookPeriodicIntervalSlider.value() as the interval
-                        # Compare with total_time elapsed using modulo
-                        if int(total_time) % int(self.window.webhookPeriodicIntervalSlider.value()) == 0:
+                        if time.time() - last_status_update >= int(self.window.webhookPeriodicIntervalSlider.value()):
                             print(f"posting periodic webhookint {int(total_time) % int(self.window.webhookPeriodicIntervalSlider.value())}")
+                            if self.window.periodicStatusCommandGroupCheckBox.isChecked():
+                                game.send_message(self.window.periodicCommandTextField.text())
                             if w is not None:
                                 w.info(status_tuple=(time_in_game, total_time, self.window.cookTimeSlider.value()), rejoins_session=rejoins_session, message="Periodic update!")
-                        else:
-                            print(f"not posting periodic webhookint {int(total_time) % int(self.window.webhookPeriodicIntervalSlider.value())}")
 
+                            # update last status update time
+                            last_status_update = time.time()
+                        else:
+                            print(f"not posting periodic webhook ({(time.time() - last_status_update)}/{int(self.window.webhookPeriodicIntervalSlider.value())})s < {int(self.window.webhookPeriodicIntervalSlider.value())}s")
                 
 
                     # Update time in game

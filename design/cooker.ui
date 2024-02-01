@@ -554,7 +554,7 @@
           <item alignment="Qt::AlignTop">
            <widget class="QTabWidget" name="extraSettingsTabWidget">
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="experiments_tab">
              <attribute name="title">
@@ -672,7 +672,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="statusCommandBox">
+               <widget class="QGroupBox" name="periodicStatusCommandGroupCheckBox">
                 <property name="title">
                  <string>Send Command/Message on Status Update</string>
                 </property>
