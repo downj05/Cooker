@@ -167,7 +167,7 @@ overlay=None):
                 # Click in the corner incase the menu button is highlighted
                 win_x, win_y, _, _ = get_unturned_window_dimensions()
                 # click in the top left corner (x and y size minus 10)
-                py.click(win_x+10, win_y+10)
+                py.click(win_x+50, win_y+50)
                 time.sleep(0.1)
             continue
     py.leftClick(x, y)
