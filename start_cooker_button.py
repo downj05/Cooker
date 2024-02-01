@@ -65,7 +65,7 @@ class StartCookerButtonLogic(QObject):
                 print("cookerLoop: Waiting for joined_server to be true")
                 while self.window.joined_server == False:
                     print("cookerLoop: Waiting for joined_server to be true")
-                    time.sleep(5)
+                    time.sleep(1)
                 print(f"cookerLoop: Join server took {time.time() - s} seconds or {time.time() - START_TIME}")
                 if self.window.joinEscapeKeyCheckboxGroup.isChecked():
                     print(f"cookerLoop: Going to press escape key, waiting {self.window.joinEscapeKeyTime.value()} seconds")

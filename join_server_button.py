@@ -1,5 +1,6 @@
 from PyQt5.QtCore import QThread, pyqtSignal, QObject, QEventLoop
 from PyQt5.QtWidgets import QPushButton
+import log_reader
 from gui import Ui_MainWindow
 import game_functions as game
 import time
@@ -19,6 +20,13 @@ class JoinButtonLogic(QObject):
             print("JoinButtonLogic.buttonPressed: unturned not running, starting")
             self.window.startGame.click()
             print("buttonPressed: loaded in")
+
+        if log_reader.is_in_game():
+            print("JoinButtonLogic.buttonPressed: in game already!, skipping join logic")
+            self.window.loading_assets = True
+            self.window.joined_server = True
+            print("JoinButtonLogic.buttonPressed: finished")
+            return
         
         print("JoinButtonLogic.buttonPressed: joining server")
         t = game.JoinServerThread(

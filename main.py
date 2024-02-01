@@ -114,6 +114,8 @@ class GuiLogic(Ui_MainWindow):
         save_widgets.init(self.statusCommandBox)
         save_widgets.init(self.periodicCommandTextField)
 
+        save_widgets.init(self.loopCookCheckbox)
+        save_widgets.init(self.loopSpinBox)
 
         # Info
 

@@ -92,9 +92,12 @@ class JoinServerThread(QThread):
                 print("JoinServerThread: Assets loaded! Client performing authentication with server!")
                 print("JoinServerThread: game functions match:", log_reader.wait_for_pattern(r"Accepted by server").group())
                 print("JoinServerThread: Client authenticated with server!")
-                print("JoinServerThread: Client is initializing battle eye")
-                print("JoinServerThread: game functions match:", log_reader.wait_for_pattern(r"BattlEye client message: Initialized").group())
-                print("JoinServerThread: Client initialized battle eye!")
+                if log_reader.get_battle_eye():
+                    print("JoinServerThread: Client is initializing battle eye")
+                    print("JoinServerThread: game functions match:", log_reader.wait_for_pattern(r"BattlEye client message: Initialized").group())
+                    print("JoinServerThread: Client initialized battle eye!")
+                else:
+                    print("JoinServerThread: Skipping battle eye because it is not enabled on the server!")
                 print("JoinServerThread: Client has joined the server!")
                 self.joined_server.emit()
                 return

@@ -67,6 +67,32 @@ def get_resolution():
     last = get_all_lines(resolution_pattern)[-1]
     return int(last.group(1)), int(last.group(2))
 
+def get_battle_eye():
+    """
+    Gets the last line that contains the battle eye pattern
+    This should only be run after a client has started to join a server
+    """
+    battle_eye_pattern = r"(?:Server is BattlEye secure: )()"
+    last = get_all_lines(battle_eye_pattern)[-1]
+    if last.group(1) == "True":
+        return True
+    else:
+        return False
+
+
+def is_in_game():
+    """
+    Check if the most recent log line contains the "Joining" pattern
+    or the "Leaving" pattern
+    """
+    last_status_pattern = r"(Disconnecting: .*|Accepted by server)"
+    last = get_all_lines(last_status_pattern)[-1]
+    if "Disconnecting" in last.group(1):
+        return False
+    elif "Accepted by server" in last.group(1):
+        return True
+    else:
+        return False
 
 
 class LogReaderThread(QThread):
@@ -90,3 +116,4 @@ class LogReaderThread(QThread):
 
 if __name__ == "__main__":
     print(f'{get_resolution()[0]} x {get_resolution()[1]}')
+    print(f"Battle eye: {get_battle_eye()}")
